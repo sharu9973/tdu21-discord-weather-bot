@@ -13,8 +13,16 @@ client = discord.Client()
 @client.event
 async def on_ready():
     campus_list = [
-        {"name": "東京千住", "area_code": 130000, "channel_id": 833498626747138098},
-        {"name": "埼玉鳩山", "area_code": 110000, "channel_id": 833498587992293386},
+        {
+            "name": "東京千住",
+            "area_code": 130000,
+            "channel_id": os.environ["SENJU_CHANNEL_ID"],
+        },
+        {
+            "name": "埼玉鳩山",
+            "area_code": 110000,
+            "channel_id": os.environ["HATOYAMA_CHANNEL_ID"],
+        },
     ]
 
     for campus in campus_list:
