@@ -1,3 +1,4 @@
+from logging import exception
 import requests
 import datetime
 
@@ -8,7 +9,7 @@ class FORECAST:
     クラスにする意味がなさそう
     """
 
-    def __init__(self, data) -> None:
+    def __init__(self, data: dict) -> None:
         self.data = data
 
     def weather_text(self) -> str:
@@ -26,11 +27,11 @@ class FORECAST:
         date_text = f"{dt.year}年{dt.month}月{dt.day}日{dt.hour}時"
         return date_text
 
-    def office(self):
+    def office(self) -> str:
         return self.data.get("publishingOffice")
 
 
-def overview(path_code):
+def overview(path_code: str) -> str:
     OVERVIEW_END_POINT = (
         f"https://www.jma.go.jp/bosai/forecast/data/overview_forecast/{path_code}.json"
     )
@@ -41,7 +42,7 @@ def overview(path_code):
     return data.get("headlineText")
 
 
-def main(**kwargs):
+def main(**kwargs) -> str:
     path_code = kwargs["area_code"]
     END_POINT = f"https://www.jma.go.jp/bosai/forecast/data/forecast/{path_code}.json"
 
@@ -49,8 +50,6 @@ def main(**kwargs):
 
     if res.status_code == 200:
         data = FORECAST(res.json()[0])
-
-        forecast_pops = data.pops()
 
         # 上の方の情報
         header_text = f"{data.date()}　{data.office()}　発表"
@@ -63,6 +62,7 @@ def main(**kwargs):
 
         # 降水確率
         # データが右詰めなのでいい感じに格納する
+        forecast_pops = data.pops()
 
         # 当日分だけを格納するリストを用意します
         pops_list = ["-"] * 4
@@ -86,7 +86,7 @@ def main(**kwargs):
 
         text = f"""
 【{header_text}】
-☀️ **{campus_location}キャンパスの天気** ☀️
+☀️ **{campus_location}キャンパス周辺の天気** ☀️
 
 📌 {weather_text} 📌
 
@@ -103,6 +103,8 @@ def main(**kwargs):
 
         print(text)
         return text
+    else:
+        raise Exception("Response is Not 200")
 
 
 if __name__ == "__main__":
