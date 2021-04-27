@@ -17,11 +17,13 @@ async def on_ready():
             "name": "東京千住",
             "area_code": 130000,
             "channel_id": os.environ["SENJU_CHANNEL_ID"],
+            "jma_link": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=1312100",
         },
         {
             "name": "埼玉鳩山",
             "area_code": 110000,
             "channel_id": os.environ["HATOYAMA_CHANNEL_ID"],
+            "jma_link": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=1134800",
         },
     ]
 

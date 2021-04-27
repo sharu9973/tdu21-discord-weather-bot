@@ -1,6 +1,6 @@
-from logging import exception
 import requests
 import datetime
+import os
 
 
 class FORECAST:
@@ -99,6 +99,8 @@ def main(**kwargs) -> str:
 🕛 12 - 18 : {rainy_12}
 🕕 18 - 24 : {rainy_18}
 
+▼ 詳細はこちら ▼
+{kwargs["jma_link"]}
         """
 
         print(text)
@@ -109,8 +111,18 @@ def main(**kwargs) -> str:
 
 if __name__ == "__main__":
     campus_list = [
-        {"name": "東京千住", "area_code": 130000, "channel_id": 833365284106272788},
-        {"name": "埼玉鳩山", "area_code": 110000, "channel_id": 811620030604115969},
+        {
+            "name": "東京千住",
+            "area_code": 130000,
+            "channel_id": os.environ["SENJU_CHANNEL_ID"],
+            "jma_link": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=1312100",
+        },
+        {
+            "name": "埼玉鳩山",
+            "area_code": 110000,
+            "channel_id": os.environ["HATOYAMA_CHANNEL_ID"],
+            "jma_link": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=1134800",
+        },
     ]
 
     for campus in campus_list:
