@@ -18,7 +18,7 @@ class FORECAST:
     def pops(self) -> list:
         return self.data.get("timeSeries")[1].get("areas")[0].get("pops")
 
-    def temps(self):
+    def temps(self) -> list:
         return self.data.get("timeSeries")[2].get("areas")[0].get("temps")
 
     def date(self) -> str:
@@ -31,17 +31,6 @@ class FORECAST:
         return self.data.get("publishingOffice")
 
 
-def overview(path_code: str) -> str:
-    OVERVIEW_END_POINT = (
-        f"https://www.jma.go.jp/bosai/forecast/data/overview_forecast/{path_code}.json"
-    )
-
-    res = requests.get(OVERVIEW_END_POINT)
-    data = res.json()
-
-    return data.get("headlineText")
-
-
 def main(**kwargs) -> str:
     path_code = kwargs["area_code"]
     END_POINT = f"https://www.jma.go.jp/bosai/forecast/data/forecast/{path_code}.json"
@@ -52,7 +41,7 @@ def main(**kwargs) -> str:
         data = FORECAST(res.json()[0])
 
         # 上の方の情報
-        header_text = f"{data.date()}　{data.office()}　発表"
+        header_text = f"{data.date()} {data.office()} 発表"
         campus_location = kwargs["name"]
 
         # 気温
@@ -75,12 +64,6 @@ def main(**kwargs) -> str:
         rainy_06 = pops_list[1]
         rainy_12 = pops_list[2]
         rainy_18 = pops_list[3]
-
-        # headlineTextがない場合もあるので……
-        # overview_headline_text = ""
-        # if not (ht := overview(path_code)) == "":
-        #     print(ht)
-        #     overview_headline_text = f"⚠️ {ht} ⚠️"
 
         weather_text = data.weather_text().replace("　", " ")
 
