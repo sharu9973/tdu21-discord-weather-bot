@@ -4,7 +4,8 @@ import sys
 import os
 import time
 
-import main
+from tduwb import main
+
 
 load_dotenv()
 client = discord.Client()
@@ -26,14 +27,21 @@ async def on_ready():
             "jma_link": "https://www.jma.go.jp/bosai/forecast/#area_type=class20s&area_code=1134800",
         },
     ]
-
     for campus in campus_list:
+        fcast = main.MainText(
+            camplus_name=campus["name"],
+            area_code=campus["area_code"],
+            jma_link=campus["jma_link"],
+        )
 
-        text = main.main(**campus)
+        print(fcast.main_text())
+        print(fcast.week_forecast())
 
         channel_id = campus["channel_id"]
         channel = client.get_channel(int(channel_id))
-        await channel.send(text)
+        await channel.send(fcast.main_text())
+        await channel.edit(topic=fcast.week_forecast())
+
     # sleep入れないとherokuでおかしくなる
     time.sleep(5)
     sys.exit()
