@@ -319,4 +319,7 @@ weather_code = {
 
 
 def weather_code_text(code: int) -> str:
-    return weather_code.get(code)[3]
+    try:
+        return weather_code.get(code)[3]
+    except:
+        return "--"

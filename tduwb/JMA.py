@@ -11,7 +11,7 @@ class JMA:
         self.area_code = area_code
         self.data = self.__fetch_forecast()
 
-    def __fetch_forecast(self):
+    def __fetch_forecast(self) -> dict:
         self.end_pint = (
             f"https://www.jma.go.jp/bosai/forecast/data/forecast/{self.area_code}.json"
         )
@@ -20,6 +20,8 @@ class JMA:
 
         if res.status_code == 200:
             return res.json()
+        else:
+            raise Exception
 
     def weather_text(self) -> str:
         return self.data[0].get("timeSeries")[0].get("areas")[0].get("weathers")[0]
@@ -42,5 +44,5 @@ class JMA:
     def week_weather_codes(self) -> list:
         return self.data[1].get("timeSeries")[0].get("areas")[0].get("weatherCodes")
 
-    def week_time_defines(self):
+    def week_time_defines(self) -> list:
         return self.data[1].get("timeSeries")[0].get("timeDefines")

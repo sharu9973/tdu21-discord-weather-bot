@@ -4,9 +4,7 @@ from .week import weather_code_text
 
 
 class MainText:
-    """
-    送信するテキストを整形する
-    """
+    """送信するテキストを整形する"""
 
     def __init__(self, camplus_name: str, area_code: int, jma_link: str):
         self.campus_name = camplus_name
@@ -14,6 +12,7 @@ class MainText:
         self.forecast_data = JMA(area_code)
 
     def main_text(self) -> str:
+        """チャンネルに送信される本文テキスト"""
 
         data = self.forecast_data
 
@@ -66,6 +65,8 @@ class MainText:
         return text
 
     def week_forecast(self) -> str:
+        """チャンネルトピックに記載される週間予報テキスト"""
+
         weather_codes = self.forecast_data.week_weather_codes()
         times = self.forecast_data.week_time_defines()
 
